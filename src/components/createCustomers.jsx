@@ -9,7 +9,7 @@
 //   const [otpVerified, setOtpVerified] = useState(false);
 
 //   const sendOtp = async () => {
-//     const res = await fetch("http://localhost:3000/customer/send-otp", {
+//     const res = await fetch("https://crank.zeppsandbox.com/api/customer/send-otp", {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -28,7 +28,7 @@
 //   };
 
 //   const verifyOtp = async () => {
-//     const res = await fetch("http://localhost:3000/customer/verify-otp", {
+//     const res = await fetch("https://crank.zeppsandbox.com/api/customer/verify-otp", {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -53,7 +53,7 @@
 //       return alert("Please verify OTP before creating customer.");
 //     }
 
-//     const res = await fetch("http://localhost:3000/customer/create", {
+//     const res = await fetch("https://crank.zeppsandbox.com/api/customer/create", {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -175,7 +175,7 @@ export default function CreateCustomer() {
   const sendOtp = async () => {
     setIsLoading({...isLoading, sendOtp: true});
     try {
-      const res = await fetch("http://localhost:3000/customer/send-otp", {
+      const res = await fetch("https://crank.zeppsandbox.com/api/customer/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -199,7 +199,7 @@ export default function CreateCustomer() {
   const verifyOtp = async () => {
     setIsLoading({...isLoading, verifyOtp: true});
     try {
-      const res = await fetch("http://localhost:3000/customer/verify-otp", {
+      const res = await fetch("https://crank.zeppsandbox.com/api/customer/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -231,7 +231,7 @@ export default function CreateCustomer() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/customer/create", {
+      const res = await fetch("https://crank.zeppsandbox.com/api/customer/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

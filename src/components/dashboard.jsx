@@ -15,7 +15,7 @@
 //     if (userRole === "admin") {
 //       const fetchCustomers = async () => {
 //         try {
-//           const response = await fetch("http://localhost:3000/admin/list", {
+//           const response = await fetch("https://crank.zeppsandbox.com/api/admin/list", {
 //             headers: {
 //               "Content-Type": "application/json",
 //               Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@
 //       const fetchDistributors = async () => {
 //         try {
 //           const response = await fetch(
-//             "http://localhost:3000/admin/distributors-summary",
+//             "https://crank.zeppsandbox.com/api/admin/distributors-summary",
 //             {
 //               headers: {
 //                 Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@
 //       const fetchDistributorStats = async () => {
 //         try {
 //           const response = await fetch(
-//             "http://localhost:3000/admin/distributor-summary",
+//             "https://crank.zeppsandbox.com/api/admin/distributor-summary",
 //             {
 //               headers: {
 //                 Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@
 //     try {
 //       const token = localStorage.getItem("token");
 //       const response = await fetch(
-//         "http://localhost:3000/admin/download-recipients",
+//         "https://crank.zeppsandbox.com/api/admin/download-recipients",
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@
 //     try {
 //       const token = localStorage.getItem("token");
 //       const response = await fetch(
-//         "http://localhost:3000/admin/download-distributors",
+//         "https://crank.zeppsandbox.com/api/admin/download-distributors",
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`,
@@ -334,7 +334,7 @@ export default function Dashboard() {
       try {
         if (userRole === "admin") {
           const fetchCustomers = async () => {
-            const response = await fetch("http://localhost:3000/admin/list", {
+            const response = await fetch("https://crank.zeppsandbox.com/api/admin/list", {
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -346,7 +346,7 @@ export default function Dashboard() {
 
           const fetchDistributors = async () => {
             const response = await fetch(
-              "http://localhost:3000/admin/distributors-summary",
+              "https://crank.zeppsandbox.com/api/admin/distributors-summary",
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -360,7 +360,7 @@ export default function Dashboard() {
           await Promise.all([fetchCustomers(), fetchDistributors()]);
         } else if (userRole === "distributor") {
           const response = await fetch(
-            "http://localhost:3000/admin/distributor-summary",
+            "https://crank.zeppsandbox.com/api/admin/distributor-summary",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -394,7 +394,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:3000/admin/download-recipients",
+        "https://crank.zeppsandbox.com/api/admin/download-recipients",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -425,7 +425,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:3000/admin/download-distributors",
+        "https://crank.zeppsandbox.com/api/admin/download-distributors",
         {
           headers: {
             Authorization: `Bearer ${token}`,
