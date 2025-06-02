@@ -214,16 +214,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -250,7 +240,9 @@ export default function LoginForm() {
     try {
       const url =
         loginType === "admin"
+          // ? "http://localhost:3000/auth/admin/send-otp"
           ? "https://crank.zeppsandbox.com/api/auth/admin/send-otp"
+          // : "http://localhost:3000/auth/distributor/send-otp";
           : "https://crank.zeppsandbox.com/api/auth/distributor/send-otp";
 
       const res = await fetch(url, {
@@ -282,12 +274,14 @@ export default function LoginForm() {
       let res;
       if (loginType === "admin") {
         if (adminLoginMode === "password") {
+          // res = await fetch("http://localhost:3000/auth/admin/login", {
           res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
           });
         } else {
+          // res = await fetch("http://localhost:3000/auth/admin/verify-otp", {
           res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -295,6 +289,7 @@ export default function LoginForm() {
           });
         }
       } else {
+        // res = await fetch("http://localhost:3000/auth/distributor/verify-otp", {
         res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -326,21 +321,22 @@ export default function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-6 sm:py-12">
       <div
-        className={`w-full max-w-md sm:max-w-lg md:max-w-xl bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 lg:p-10 transition-all duration-300
-          ${
-            loginType === "admin"
-              ? "border-l-4 border-indigo-500"
-              : "border-l-4 border-green-500"
-          }`}
+        className={`w-full max-w-md sm:max-w-lg md:max-w-xl bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 lg:p-10 transition-all duration-300 ${
+          loginType === "admin"
+            ? "border-l-4 border-indigo-500"
+            : "border-l-4 border-green-500"
+        }`}
       >
         <div className="text-center mb-4 sm:mb-6 md:mb-8">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Welcome Back</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+            Welcome Back
+          </h2>
           <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-base text-gray-500">
-            Sign in to your <span className="font-semibold">{loginType}</span> account
+            Sign in to your <span className="font-semibold">{loginType}</span>{" "}
+            account
           </p>
         </div>
 
-        {/* Account type toggle */}
         <div className="mt-4 flex rounded-md overflow-hidden border border-gray-300">
           <button
             type="button"
@@ -366,7 +362,6 @@ export default function LoginForm() {
           </button>
         </div>
 
-        {/* Admin login mode toggle */}
         {loginType === "admin" && (
           <div className="mt-4 flex rounded-md overflow-hidden border border-gray-300">
             <button
@@ -397,8 +392,10 @@ export default function LoginForm() {
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 relative">
-          {/* Email & Password */}
+        <form
+          onSubmit={handleLogin}
+          className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 relative"
+        >
           {loginType === "admin" && adminLoginMode === "password" && (
             <>
               <div className="relative">
@@ -432,8 +429,8 @@ export default function LoginForm() {
             </>
           )}
 
-          {/* Mobile & OTP */}
-          {(loginType === "distributor" || (loginType === "admin" && adminLoginMode === "otp")) && (
+          {(loginType === "distributor" ||
+            (loginType === "admin" && adminLoginMode === "otp")) && (
             <>
               <div className="relative">
                 <input
@@ -465,7 +462,11 @@ export default function LoginForm() {
                       placeholder="6-digit OTP"
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
-                      className={`${inputClass} ${!otpSent && loginType !== "distributor" ? "bg-gray-100" : ""}`}
+                      className={`${inputClass} ${
+                        !otpSent && loginType !== "distributor"
+                          ? "bg-gray-100"
+                          : ""
+                      }`}
                     />
                     <label htmlFor="otp" className={labelClass}>
                       Enter 6-digit OTP
@@ -476,7 +477,7 @@ export default function LoginForm() {
                     onClick={handleSendOtp}
                     disabled={!mobile || mobile.length !== 10 || isLoading}
                     className={`px-4 py-2 text-xs sm:text-sm rounded-md ${
-                      (!mobile || mobile.length !== 10 || isLoading)
+                      !mobile || mobile.length !== 10 || isLoading
                         ? "bg-indigo-300 cursor-not-allowed text-white"
                         : "bg-indigo-600 hover:bg-indigo-700 text-white"
                     } transition h-[42px] sm:h-auto`}
@@ -485,26 +486,34 @@ export default function LoginForm() {
                   </button>
                 </div>
                 {otpSent && (
-                  <p className="text-xs sm:text-sm text-green-600 mt-1">OTP sent successfully!</p>
+                  <p className="text-xs sm:text-sm text-green-600 mt-1">
+                    OTP sent successfully!
+                  </p>
                 )}
               </div>
             </>
           )}
 
-          {/* Error */}
           {error && (
             <div className="bg-red-100 text-red-700 px-3 py-2 rounded-md text-xs sm:text-sm">
               {error}
             </div>
           )}
 
-          {/* Submit */}
           <div>
             <button
               type="submit"
-              disabled={isLoading || (loginType === "admin" && adminLoginMode === "otp" && !otpSent)}
+              disabled={
+                isLoading ||
+                (loginType === "admin" &&
+                  adminLoginMode === "otp" &&
+                  !otpSent)
+              }
               className={`w-full py-2 sm:py-3 rounded-md text-xs sm:text-sm font-medium text-white ${
-                isLoading || (loginType === "admin" && adminLoginMode === "otp" && !otpSent)
+                isLoading ||
+                (loginType === "admin" &&
+                  adminLoginMode === "otp" &&
+                  !otpSent)
                   ? "bg-indigo-300 cursor-not-allowed"
                   : "bg-indigo-600 hover:bg-indigo-700"
               } transition`}
@@ -517,3 +526,7 @@ export default function LoginForm() {
     </div>
   );
 }
+
+
+
+// // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

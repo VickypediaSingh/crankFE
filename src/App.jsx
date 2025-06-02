@@ -1,4 +1,6 @@
 import LoginForm from "./components/loginForm";
+import AdminLoginForm from "./components/AdminLoginForm";
+import AmbassadorLoginForm from "./components/AmbassadorLoginForm";
 import Dashboard from "./components/dashboard";
 import UploadDistributors from "./components/uploadDistributos";
 import CreateCustomer from "./components/createCustomers";
@@ -13,7 +15,10 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<LoginForm />} />
+      {/* <Route path="/" element={<LoginForm />} /> */}
+      <Route path="/" element={<AmbassadorLoginForm />} /> 
+      <Route path="/admin" element={<AdminLoginForm />} />
+
       <Route
         path="/dashboard"
         element={
