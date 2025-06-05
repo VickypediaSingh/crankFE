@@ -51,16 +51,15 @@ function AppRoutes() {
         }
       />
       {/*  */}
-      <Route path="/assign-units/:id" element={<AssignUnitsForm />} />
-      {/* <Route path="/assign-units/:id" element={<AssignUnitsForm />} />  */}
-      {/* <Route
+      {/* <Route path="/assign-units/:id" element={<AssignUnitsForm />} /> */}
+      <Route
         path="/assign-units/:id"
         element={
           <PrivateRoute>
             <AssignUnitsForm />
           </PrivateRoute>
         }
-      /> */}
+      />
       {/*  */}
       <Route
         path="/create-customer"

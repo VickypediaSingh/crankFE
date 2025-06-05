@@ -147,12 +147,12 @@ export default function AssignUnitsForm() {
             </label>
             <input
               type="number"
-              id="units"
-              min="1"
-              value={additionalUnits}
-              onChange={(e) => setAdditionalUnits(e.target.value)}
-              className="w-full px-4 py-3 bg-[#2e2e2e] border border-[#3e3e3e] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#93c740]"
-              required
+              min={-distributor.quantity_remaining}
+              max="2000"
+              value={allocations[d.id] ?? ""}
+              onChange={(e) => handleAllocationChange(d.id, e.target.value)}
+              placeholder={d.quantity_remaining.toString()}
+              className="w-24 px-3 py-2 bg-[#2e2e2e] border border-[#3e3e3e] rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-[#93c740] text-center"
             />
           </div>
 

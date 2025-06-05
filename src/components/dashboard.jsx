@@ -908,10 +908,10 @@ export default function Dashboard() {
                         Assigned
                       </th>
                       <th className="px-6 py-4 text-center text-sm font-medium text-gray-300 uppercase tracking-wider">
-                        Remaining
+                        Sampled
                       </th>
                       <th className="px-6 py-4 text-center text-sm font-medium text-gray-300 uppercase tracking-wider">
-                        Sampled
+                        Remaining
                       </th>
                     </tr>
                   </thead>
@@ -933,11 +933,11 @@ export default function Dashboard() {
                           <td className="px-6 py-4 text-center text-gray-400">
                             {d.quantity_alloted}
                           </td>
-                          <td className="px-6 py-4 text-center text-gray-400">
-                            {d.quantity_remaining}
-                          </td>
                           <td className="px-6 py-4 text-center font-medium text-[#93c740]">
                             {d.quantity_alloted - d.quantity_remaining}
+                          </td>
+                          <td className="px-6 py-4 text-center text-gray-400">
+                            {d.quantity_remaining}
                           </td>
                         </tr>
                       ))
