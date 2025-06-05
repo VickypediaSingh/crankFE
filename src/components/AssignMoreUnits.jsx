@@ -5,74 +5,78 @@
 // export default function AssignMoreUnits() {
 //   const [distributors, setDistributors] = useState([]);
 //   const [isLoading, setIsLoading] = useState(true);
-//   const [allocations, setAllocations] = useState({});
+//   const [finalUnits, setFinalUnits] = useState({});
 //   const [isSubmitting, setIsSubmitting] = useState({});
 
 //   useEffect(() => {
-//     const fetchDistributors = async () => {
-//       try {
-//         const token = localStorage.getItem("token");
-//         const response = await fetch(
-//           "http://localhost:3000/admin/distributors-summary",
-//           {
-//             headers: {
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
-//         const data = await response.json();
-//         setDistributors(data);
-
-//         // Initialize allocations with remaining quantities
-//         const initialAllocations = {};
-//         data.forEach((d) => {
-//           initialAllocations[d.id] = d.quantity_remaining.toString();
-//         });
-//         setAllocations(initialAllocations);
-//       } catch (error) {
-//         console.error("Error fetching ambassadors:", error);
-//         toast.error("Failed to load ambassadors");
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     };
-
 //     fetchDistributors();
 //   }, []);
 
-//   const handleAllocationChange = (id, value) => {
-//     // Allow empty string, negative numbers, and positive numbers up to 2000
-//     if (
-//       value === "" ||
-//       (Number.isInteger(Number(value)) && Math.abs(Number(value)) <= 2000)
-//     ) {
-//       setAllocations((prev) => ({
+//   const fetchDistributors = async () => {
+//     try {
+//       const token = localStorage.getItem("token");
+//       const response = await fetch(
+//         "http://localhost:3000/admin/distributors-summary",
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
+//       const data = await response.json();
+//       setDistributors(data);
+
+//       // Initialize finalUnits with current remaining quantities
+//       const initialFinalUnits = {};
+//       data.forEach((d) => {
+//         initialFinalUnits[d.id] = d.quantity_remaining.toString();
+//       });
+//       setFinalUnits(initialFinalUnits);
+//     } catch (error) {
+//       console.error("Error fetching ambassadors:", error);
+//       toast.error("Failed to load ambassadors");
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   const handleFinalUnitsChange = (id, value) => {
+//     // Allow empty string or numbers between 0-2000
+//     if (value === "" || (Number(value) >= 0 && Number(value) <= 2000)) {
+//       setFinalUnits((prev) => ({
 //         ...prev,
 //         [id]: value,
 //       }));
 //     }
 //   };
 
-//   const handleAllocate = async (distributor) => {
-//     const additionalUnits = parseInt(allocations[distributor.id], 10);
+//   const adjustFinalUnits = (id, amount) => {
+//     setFinalUnits((prev) => {
+//       const currentValue = Number(prev[id]) || 0;
+//       const newValue = currentValue + amount;
 
-//     if (isNaN(additionalUnits)) {
-//       toast.error("Please enter a valid number");
-//       return;
-//     }
+//       // Ensure value stays between 0-2000
+//       if (newValue >= 0 && newValue <= 2000) {
+//         return {
+//           ...prev,
+//           [id]: newValue.toString(),
+//         };
+//       }
+//       return prev;
+//     });
+//   };
 
-//     if (additionalUnits === 0) {
-//       toast.error("Please enter a value different from 0");
-//       return;
-//     }
+//   const handleAssign = async (distributor) => {
+//     const newFinalUnits = Number(finalUnits[distributor.id]) || 0;
+//     const sampled =
+//       distributor.quantity_alloted - distributor.quantity_remaining;
+//     const newAllocated = newFinalUnits + sampled;
 
-//     // Optional: Add maximum limit check
-//     if (Math.abs(additionalUnits) > 2000) {
-//       toast.error("Cannot assign/deduct more than 2000 units at once");
-//       return;
-//     }
-
-//     setIsSubmitting((prev) => ({ ...prev, [distributor.id]: true }));
+//     console.log("Sending update request:", {
+//       distributorId: distributor.id,
+//       newAllocated,
+//       newFinalUnits,
+//     });
 
 //     try {
 //       const token = localStorage.getItem("token");
@@ -85,48 +89,27 @@
 //             Authorization: `Bearer ${token}`,
 //           },
 //           body: JSON.stringify({
-//             additional_units: additionalUnits,
+//             new_allocated: newAllocated,
+//             new_remaining: newFinalUnits,
 //           }),
 //         }
 //       );
 
 //       const data = await response.json();
+//       console.log("Response:", data);
 
 //       if (!response.ok) {
-//         throw new Error(data.error || "Failed to assign units");
+//         throw new Error(data.error || "Failed to update units");
 //       }
 
-//       // Update local state to reflect changes
-//       setDistributors((prev) =>
-//         prev.map((d) =>
-//           d.id === distributor.id
-//             ? {
-//                 ...d,
-//                 quantity_alloted: d.quantity_alloted + additionalUnits,
-//                 quantity_remaining: d.quantity_remaining + additionalUnits,
-//               }
-//             : d
-//         )
-//       );
-
-//       toast.success(
-//         `${additionalUnits >= 0 ? "Assigned" : "Deducted"} ${Math.abs(
-//           additionalUnits
-//         )} units to ${distributor.name}`
-//       );
-
-//       // Reset the input for this distributor to the new remaining value
-//       setAllocations((prev) => ({
-//         ...prev,
-//         [distributor.id]: (
-//           distributor.quantity_remaining + additionalUnits
-//         ).toString(),
-//       }));
+//       // ... rest of your success handling
 //     } catch (error) {
-//       console.error("Assignment error:", error);
-//       toast.error(`Failed to assign units: ${error.message}`);
-//     } finally {
-//       setIsSubmitting((prev) => ({ ...prev, [distributor.id]: false }));
+//       console.error("Full error details:", {
+//         message: error.message,
+//         response: error.response,
+//         stack: error.stack,
+//       });
+//       toast.error(`Failed to update ${distributor.name}: ${error.message}`);
 //     }
 //   };
 
@@ -155,7 +138,7 @@
 
 //       <div className="text-center mb-12">
 //         <h2 className="text-3xl sm:text-4xl font-bold mb-3 text-[#93c740]">
-//           Assign/Deduct Units
+//           Assign/Product Units
 //         </h2>
 //         <p className="text-lg text-gray-400 max-w-2xl mx-auto">
 //           Allocate or deduct additional sampling units to ambassadors
@@ -213,25 +196,39 @@
 //                       {d.quantity_remaining}
 //                     </td>
 //                     <td className="px-6 py-4 text-center">
-//                       <input
-//                         type="number"
-//                         min="0"
-//                         max="2000"
-//                         value={allocations[d.id] || ""}
-//                         onChange={(e) =>
-//                           handleAllocationChange(d.id, e.target.value)
-//                         }
-//                         placeholder={d.quantity_remaining.toString()}
-//                         className="w-24 px-3 py-2 bg-[#2e2e2e] border border-[#3e3e3e] rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-[#93c740] text-center"
-//                       />
+//                       <div className="flex items-center justify-center space-x-2">
+//                         <button
+//                           onClick={() => adjustFinalUnits(d.id, -1)}
+//                           disabled={Number(finalUnits[d.id]) <= 0}
+//                           className="w-8 h-8 flex items-center justify-center bg-[#2e2e2e] rounded-lg hover:bg-[#3e3e3e] disabled:opacity-50 disabled:cursor-not-allowed"
+//                         >
+//                           -
+//                         </button>
+//                         <input
+//                           type="number"
+//                           min="0"
+//                           max="2000"
+//                           value={finalUnits[d.id] || ""}
+//                           onChange={(e) =>
+//                             handleFinalUnitsChange(d.id, e.target.value)
+//                           }
+//                           className="w-20 px-3 py-2 bg-[#2e2e2e] border border-[#3e3e3e] rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-[#93c740] text-center"
+//                         />
+//                         <button
+//                           onClick={() => adjustFinalUnits(d.id, 1)}
+//                           disabled={Number(finalUnits[d.id]) >= 2000}
+//                           className="w-8 h-8 flex items-center justify-center bg-[#2e2e2e] rounded-lg hover:bg-[#3e3e3e] disabled:opacity-50 disabled:cursor-not-allowed"
+//                         >
+//                           +
+//                         </button>
+//                       </div>
 //                     </td>
 //                     <td className="px-6 py-4 text-center">
 //                       <button
-//                         onClick={() => handleAllocate(d)}
+//                         onClick={() => handleAssign(d)}
 //                         disabled={
 //                           isSubmitting[d.id] ||
-//                           !allocations[d.id] ||
-//                           parseInt(allocations[d.id]) <= 0
+//                           Number(finalUnits[d.id]) === d.quantity_remaining
 //                         }
 //                         className={`px-4 py-2 rounded-lg ${
 //                           isSubmitting[d.id]
@@ -239,7 +236,7 @@
 //                             : "bg-[#93c740] hover:bg-[#83b730]"
 //                         } text-[#121212] font-medium transition-colors`}
 //                       >
-//                         {isSubmitting[d.id] ? "Assigning..." : "Assign"}
+//                         {isSubmitting[d.id] ? "Updating..." : "Assign"}
 //                       </button>
 //                     </td>
 //                   </tr>
@@ -263,6 +260,17 @@
 // }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -275,12 +283,16 @@ export default function AssignMoreUnits() {
   const [isSubmitting, setIsSubmitting] = useState({});
 
   useEffect(() => {
+    console.log("Component mounted, fetching distributors...");
     fetchDistributors();
   }, []);
 
   const fetchDistributors = async () => {
+    console.log("Starting distributor fetch...");
     try {
       const token = localStorage.getItem("token");
+      console.log("Using token:", token ? "*****" : "NOT FOUND");
+
       const response = await fetch(
         "http://localhost:3000/admin/distributors-summary",
         {
@@ -289,7 +301,16 @@ export default function AssignMoreUnits() {
           },
         }
       );
+
+      console.log("Fetch response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log("Fetched data:", data);
+
       setDistributors(data);
 
       // Initialize finalUnits with current remaining quantities
@@ -298,16 +319,18 @@ export default function AssignMoreUnits() {
         initialFinalUnits[d.id] = d.quantity_remaining.toString();
       });
       setFinalUnits(initialFinalUnits);
+      console.log("Initialized finalUnits:", initialFinalUnits);
     } catch (error) {
       console.error("Error fetching ambassadors:", error);
       toast.error("Failed to load ambassadors");
     } finally {
       setIsLoading(false);
+      console.log("Fetch completed, loading set to false");
     }
   };
 
   const handleFinalUnitsChange = (id, value) => {
-    // Allow empty string or numbers between 0-2000
+    console.log(`Changing final units for ${id} to ${value}`);
     if (value === "" || (Number(value) >= 0 && Number(value) <= 2000)) {
       setFinalUnits((prev) => ({
         ...prev,
@@ -317,17 +340,19 @@ export default function AssignMoreUnits() {
   };
 
   const adjustFinalUnits = (id, amount) => {
+    console.log(`Adjusting final units for ${id} by ${amount}`);
     setFinalUnits((prev) => {
       const currentValue = Number(prev[id]) || 0;
       const newValue = currentValue + amount;
 
-      // Ensure value stays between 0-2000
       if (newValue >= 0 && newValue <= 2000) {
+        console.log(`New valid value for ${id}: ${newValue}`);
         return {
           ...prev,
           [id]: newValue.toString(),
         };
       }
+      console.log(`Value out of range for ${id}: ${newValue}`);
       return prev;
     });
   };
@@ -338,14 +363,28 @@ export default function AssignMoreUnits() {
       distributor.quantity_alloted - distributor.quantity_remaining;
     const newAllocated = newFinalUnits + sampled;
 
-    console.log("Sending update request:", {
+    console.log("Starting assignment with:", {
       distributorId: distributor.id,
-      newAllocated,
+      currentAllocated: distributor.quantity_alloted,
+      currentRemaining: distributor.quantity_remaining,
+      sampled,
       newFinalUnits,
+      newAllocated,
     });
+
+    if (newFinalUnits === distributor.quantity_remaining) {
+      console.log("No changes detected, skipping update");
+      toast.info("No changes detected");
+      return;
+    }
+
+    setIsSubmitting((prev) => ({ ...prev, [distributor.id]: true }));
+    console.log("Set submitting state for", distributor.id);
 
     try {
       const token = localStorage.getItem("token");
+      console.log("Making API call with token:", token ? "*****" : "NOT FOUND");
+
       const response = await fetch(
         `http://localhost:3000/admin/assign-units/${distributor.id}`,
         {
@@ -361,25 +400,62 @@ export default function AssignMoreUnits() {
         }
       );
 
+      console.log("API response status:", response.status);
       const data = await response.json();
-      console.log("Response:", data);
+      console.log("API response data:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to update units");
       }
 
-      // ... rest of your success handling
+      // Optimistic UI update
+      setDistributors((prevDistributors) => {
+        const updated = prevDistributors.map((d) =>
+          d.id === distributor.id
+            ? {
+                ...d,
+                quantity_alloted: newAllocated,
+                quantity_remaining: newFinalUnits,
+              }
+            : d
+        );
+        console.log("Updated local state:", updated);
+        return updated;
+      });
+
+      // Then refresh from server
+      console.log("Refreshing data from server...");
+      await fetchDistributors();
+
+      toast.success(
+        `Updated ${distributor.name}: Allocated ${newAllocated}, Remaining ${newFinalUnits}`
+      );
+
+      // Update finalUnits to match
+      setFinalUnits((prev) => ({
+        ...prev,
+        [distributor.id]: newFinalUnits.toString(),
+      }));
+      console.log("Updated finalUnits state");
     } catch (error) {
-      console.error("Full error details:", {
+      console.error("Full assignment error:", {
         message: error.message,
-        response: error.response,
         stack: error.stack,
+        response: error.response,
       });
       toast.error(`Failed to update ${distributor.name}: ${error.message}`);
+
+      // Revert optimistic update if needed
+      console.log("Reverting optimistic update...");
+      await fetchDistributors();
+    } finally {
+      setIsSubmitting((prev) => ({ ...prev, [distributor.id]: false }));
+      console.log("Reset submitting state for", distributor.id);
     }
   };
 
   if (isLoading) {
+    console.log("Rendering loading state");
     return (
       <div className="flex justify-center items-center min-h-screen bg-[#121212]">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#93c740]"></div>
@@ -387,6 +463,7 @@ export default function AssignMoreUnits() {
     );
   }
 
+  console.log("Rendering main component with distributors:", distributors);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen bg-[#121212] text-white animate-fadeIn">
       <ToastContainer
@@ -441,72 +518,75 @@ export default function AssignMoreUnits() {
             </thead>
             <tbody className="bg-[#1e1e1e] divide-y divide-[#2e2e2e]">
               {distributors.length > 0 ? (
-                distributors.map((d) => (
-                  <tr
-                    key={d.id}
-                    className="hover:bg-[#2e2e2e] transition-colors duration-200"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap font-medium text-white">
-                      {d.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-400">
-                      {d.mobile_number}
-                    </td>
-                    <td className="px-6 py-4 text-center text-gray-400">
-                      {d.quantity_alloted}
-                    </td>
-                    <td className="px-6 py-4 text-center text-[#93c740] font-medium">
-                      {d.quantity_alloted - d.quantity_remaining}
-                    </td>
-                    <td className="px-6 py-4 text-center text-gray-400">
-                      {d.quantity_remaining}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <div className="flex items-center justify-center space-x-2">
+                distributors.map((d) => {
+                  console.log(`Rendering row for ${d.id}:`, d);
+                  return (
+                    <tr
+                      key={d.id}
+                      className="hover:bg-[#2e2e2e] transition-colors duration-200"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap font-medium text-white">
+                        {d.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-400">
+                        {d.mobile_number}
+                      </td>
+                      <td className="px-6 py-4 text-center text-gray-400">
+                        {d.quantity_alloted}
+                      </td>
+                      <td className="px-6 py-4 text-center text-[#93c740] font-medium">
+                        {d.quantity_alloted - d.quantity_remaining}
+                      </td>
+                      <td className="px-6 py-4 text-center text-gray-400">
+                        {d.quantity_remaining}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="flex items-center justify-center space-x-2">
+                          <button
+                            onClick={() => adjustFinalUnits(d.id, -1)}
+                            disabled={Number(finalUnits[d.id]) <= 0}
+                            className="w-8 h-8 flex items-center justify-center bg-[#2e2e2e] rounded-lg hover:bg-[#3e3e3e] disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            min="0"
+                            max="2000"
+                            value={finalUnits[d.id] || ""}
+                            onChange={(e) =>
+                              handleFinalUnitsChange(d.id, e.target.value)
+                            }
+                            className="w-20 px-3 py-2 bg-[#2e2e2e] border border-[#3e3e3e] rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-[#93c740] text-center"
+                          />
+                          <button
+                            onClick={() => adjustFinalUnits(d.id, 1)}
+                            disabled={Number(finalUnits[d.id]) >= 2000}
+                            className="w-8 h-8 flex items-center justify-center bg-[#2e2e2e] rounded-lg hover:bg-[#3e3e3e] disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
                         <button
-                          onClick={() => adjustFinalUnits(d.id, -1)}
-                          disabled={Number(finalUnits[d.id]) <= 0}
-                          className="w-8 h-8 flex items-center justify-center bg-[#2e2e2e] rounded-lg hover:bg-[#3e3e3e] disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          -
-                        </button>
-                        <input
-                          type="number"
-                          min="0"
-                          max="2000"
-                          value={finalUnits[d.id] || ""}
-                          onChange={(e) =>
-                            handleFinalUnitsChange(d.id, e.target.value)
+                          onClick={() => handleAssign(d)}
+                          disabled={
+                            isSubmitting[d.id] ||
+                            Number(finalUnits[d.id]) === d.quantity_remaining
                           }
-                          className="w-20 px-3 py-2 bg-[#2e2e2e] border border-[#3e3e3e] rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-[#93c740] text-center"
-                        />
-                        <button
-                          onClick={() => adjustFinalUnits(d.id, 1)}
-                          disabled={Number(finalUnits[d.id]) >= 2000}
-                          className="w-8 h-8 flex items-center justify-center bg-[#2e2e2e] rounded-lg hover:bg-[#3e3e3e] disabled:opacity-50 disabled:cursor-not-allowed"
+                          className={`px-4 py-2 rounded-lg ${
+                            isSubmitting[d.id]
+                              ? "bg-gray-600 cursor-not-allowed"
+                              : "bg-[#93c740] hover:bg-[#83b730]"
+                          } text-[#121212] font-medium transition-colors`}
                         >
-                          +
+                          {isSubmitting[d.id] ? "Updating..." : "Assign"}
                         </button>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <button
-                        onClick={() => handleAssign(d)}
-                        disabled={
-                          isSubmitting[d.id] ||
-                          Number(finalUnits[d.id]) === d.quantity_remaining
-                        }
-                        className={`px-4 py-2 rounded-lg ${
-                          isSubmitting[d.id]
-                            ? "bg-gray-600 cursor-not-allowed"
-                            : "bg-[#93c740] hover:bg-[#83b730]"
-                        } text-[#121212] font-medium transition-colors`}
-                      >
-                        {isSubmitting[d.id] ? "Updating..." : "Assign"}
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
                   <td
