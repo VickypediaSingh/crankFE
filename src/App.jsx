@@ -1,8 +1,10 @@
 import LoginForm from "./components/loginForm";
+import AssignMoreUnits from "./components/AssignMoreUnits";
+import AssignUnitsForm from "./components/AssignUnitsForm";
+import UploadDistributors from "./components/uploadDistributos";
 import AdminLoginForm from "./components/AdminLoginForm";
 import AmbassadorLoginForm from "./components/AmbassadorLoginForm";
 import Dashboard from "./components/dashboard";
-import UploadDistributors from "./components/uploadDistributos";
 import CreateCustomer from "./components/createCustomers";
 import PrivateRoute from "./components/PrivateRoute";
 import userLogoutConfirmation from "./components/userLogoutConfirmation";
@@ -16,9 +18,11 @@ function AppRoutes() {
   return (
     <Routes>
       {/* <Route path="/" element={<LoginForm />} /> */}
-      <Route path="/" element={<AmbassadorLoginForm />} /> 
+      {/*  */}
+      <Route path="/ca" element={<AmbassadorLoginForm />} />
+      {/*  */}
       <Route path="/admin" element={<AdminLoginForm />} />
-
+      {/*  */}
       <Route
         path="/dashboard"
         element={
@@ -27,6 +31,7 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
+      {/*  */}
       <Route
         path="/upload-distributors"
         element={
@@ -35,6 +40,28 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
+      {/*  */}
+      {/* <Route path="/assign-more-to-an-ambassador" element={<AssignMoreUnits />} /> */}
+      <Route
+        path="/assign-more-to-an-ambassador"
+        element={
+          <PrivateRoute>
+            <AssignMoreUnits />
+          </PrivateRoute>
+        }
+      />
+      {/*  */}
+      <Route path="/assign-units/:id" element={<AssignUnitsForm />} />
+      {/* <Route path="/assign-units/:id" element={<AssignUnitsForm />} />  */}
+      {/* <Route
+        path="/assign-units/:id"
+        element={
+          <PrivateRoute>
+            <AssignUnitsForm />
+          </PrivateRoute>
+        }
+      /> */}
+      {/*  */}
       <Route
         path="/create-customer"
         element={
@@ -43,6 +70,7 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
+      {/*  */}
     </Routes>
   );
 }

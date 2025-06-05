@@ -18,8 +18,8 @@ export default function CreateCustomer() {
     setMessage({ type: "", text: "" });
 
     try {
-      // const res = await fetch("http://localhost:3000/customer/send-otp", {
-      const res = await fetch("https://crank.zeppsandbox.com/api/customer/send-otp", {
+      const res = await fetch("http://localhost:3000/customer/send-otp", {
+      // const res = await fetch("https://crank.zeppsandbox.com/api/customer/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,8 +47,8 @@ export default function CreateCustomer() {
     setMessage({ type: "", text: "" });
 
     try {
-      // const verifyRes = await fetch("http://localhost:3000/customer/verify-otp", {
-      const verifyRes = await fetch("https://crank.zeppsandbox.com/api/customer/verify-otp", {
+      const verifyRes = await fetch("http://localhost:3000/customer/verify-otp", {
+      // const verifyRes = await fetch("https://crank.zeppsandbox.com/api/customer/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,8 +68,8 @@ export default function CreateCustomer() {
       setMessage({ type: "success", text: "OTP verified. Creating recipient..." });
 
       // Now auto-create recipient
-      // const createRes = await fetch("http://localhost:3000/customer/create", {
-      const createRes = await fetch("https://crank.zeppsandbox.com/api/customer/create", {
+      const createRes = await fetch("http://localhost:3000/customer/create", {
+      // const createRes = await fetch("https://crank.zeppsandbox.com/api/customer/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

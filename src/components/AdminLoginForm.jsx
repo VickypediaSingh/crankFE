@@ -276,8 +276,8 @@ export default function AdminLoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      // const res = await fetch("http://localhost:3000/auth/admin/send-otp", {
-      const res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/send-otp", {
+      const res = await fetch("http://localhost:3000/auth/admin/send-otp", {
+      // const res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -299,15 +299,15 @@ export default function AdminLoginForm() {
     try {
       let res;
       if (adminLoginMode === "password") {
-        // res = await fetch("http://localhost:3000/auth/admin/login", {
-        res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/login", {
+        res = await fetch("http://localhost:3000/auth/admin/login", {
+        // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
       } else {
-        // res = await fetch("http://localhost:3000/auth/admin/verify-otp", {
-        res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/verify-otp", {
+        res = await fetch("http://localhost:3000/auth/admin/verify-otp", {
+        // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),

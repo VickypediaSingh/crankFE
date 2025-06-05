@@ -275,8 +275,8 @@ export default function UploadDistributors() {
 
     try {
       const res = await fetch(
-        // "http://localhost:3000/admin/create-distributor",
-        "https://crank.zeppsandbox.com/api/admin/create-distributor",
+        "http://localhost:3000/admin/create-distributor",
+        // "https://crank.zeppsandbox.com/api/admin/create-distributor",
         {
           method: "POST",
           headers: {

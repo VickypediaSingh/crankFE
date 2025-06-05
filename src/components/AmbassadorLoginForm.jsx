@@ -18,8 +18,8 @@ export default function AmbassadorLoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      // const res = await fetch("http://localhost:3000/auth/distributor/send-otp", {
-      const res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/send-otp", {
+      const res = await fetch("http://localhost:3000/auth/distributor/send-otp", {
+      // const res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -42,8 +42,8 @@ export default function AmbassadorLoginForm() {
     setError("");
     setIsLoading(true);
     try {
-      // const res = await fetch("http://localhost:3000/auth/distributor/verify-otp", {
-      const res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/verify-otp", {
+      const res = await fetch("http://localhost:3000/auth/distributor/verify-otp", {
+      // const res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
