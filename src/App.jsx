@@ -19,7 +19,7 @@ function AppRoutes() {
     <Routes>
       {/* <Route path="/" element={<LoginForm />} /> */}
       {/*  */}
-      <Route path="/ca" element={<AmbassadorLoginForm />} />
+      <Route path="/" element={<AmbassadorLoginForm />} />
       {/*  */}
       <Route path="/admin" element={<AdminLoginForm />} />
       {/*  */}
