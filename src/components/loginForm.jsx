@@ -200,24 +200,14 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
 // // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-
-
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -240,10 +230,10 @@ export default function LoginForm() {
     try {
       const url =
         loginType === "admin"
-          ? "http://localhost:3000/auth/admin/send-otp"
-          // ? "https://crank.zeppsandbox.com/api/auth/admin/send-otp"
-          : "http://localhost:3000/auth/distributor/send-otp";
-          // : "https://crank.zeppsandbox.com/api/auth/distributor/send-otp";
+          ? `${crankURL}/auth/admin/send-otp`
+          : // ? "https://crank.zeppsandbox.com/api/auth/admin/send-otp"
+            `${crankURL}/auth/distributor/send-otp`;
+      // : "https://crank.zeppsandbox.com/api/auth/distributor/send-otp";
 
       const res = await fetch(url, {
         method: "POST",
@@ -274,23 +264,23 @@ export default function LoginForm() {
       let res;
       if (loginType === "admin") {
         if (adminLoginMode === "password") {
-          res = await fetch("http://localhost:3000/auth/admin/login", {
-          // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/login", {
+          res = await fetch(`${crankURL}/auth/admin/login`, {
+            // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
           });
         } else {
-          res = await fetch("http://localhost:3000/auth/admin/verify-otp", {
-          // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/verify-otp", {
+          res = await fetch(`${crankURL}/auth/admin/verify-otp`, {
+            // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
           });
         }
       } else {
-        res = await fetch("http://localhost:3000/auth/distributor/verify-otp", {
-        // res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/verify-otp", {
+        res = await fetch(`${crankURL}/auth/distributor/verify-otp`, {
+          // res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
@@ -505,15 +495,11 @@ export default function LoginForm() {
               type="submit"
               disabled={
                 isLoading ||
-                (loginType === "admin" &&
-                  adminLoginMode === "otp" &&
-                  !otpSent)
+                (loginType === "admin" && adminLoginMode === "otp" && !otpSent)
               }
               className={`w-full py-2 sm:py-3 rounded-md text-xs sm:text-sm font-medium text-white ${
                 isLoading ||
-                (loginType === "admin" &&
-                  adminLoginMode === "otp" &&
-                  !otpSent)
+                (loginType === "admin" && adminLoginMode === "otp" && !otpSent)
                   ? "bg-indigo-300 cursor-not-allowed"
                   : "bg-indigo-600 hover:bg-indigo-700"
               } transition`}
@@ -526,7 +512,5 @@ export default function LoginForm() {
     </div>
   );
 }
-
-
 
 // // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

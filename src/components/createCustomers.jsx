@@ -285,6 +285,8 @@
 import React, { useState } from "react";
 
 export default function CreateCustomer() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -302,7 +304,7 @@ export default function CreateCustomer() {
     setMessage({ type: "", text: "" });
 
     try {
-      const res = await fetch("http://localhost:3000/customer/send-otp", {
+      const res = await fetch(`${crankURL}/customer/send-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -333,17 +335,14 @@ export default function CreateCustomer() {
     setMessage({ type: "", text: "" });
 
     try {
-      const verifyRes = await fetch(
-        "http://localhost:3000/customer/verify-otp",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
-        }
-      );
+      const verifyRes = await fetch(`${crankURL}/customer/verify-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
+      });
 
       const verifyData = await verifyRes.json();
       if (!verifyRes.ok) {
@@ -360,7 +359,7 @@ export default function CreateCustomer() {
         text: "OTP verified. Creating recipient...",
       });
 
-      const createRes = await fetch("http://localhost:3000/customer/create", {
+      const createRes = await fetch(`${crankURL}/customer/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

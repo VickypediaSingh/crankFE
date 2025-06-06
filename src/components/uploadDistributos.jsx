@@ -168,6 +168,8 @@
 import React, { useState } from "react";
 
 export default function UploadDistributors() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -205,17 +207,14 @@ export default function UploadDistributors() {
     };
 
     try {
-      const res = await fetch(
-        "http://localhost:3000/admin/create-distributor",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(distributorData),
-        }
-      );
+      const res = await fetch(`${crankURL}/admin/create-distributor`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(distributorData),
+      });
 
       const data = await res.json();
       if (res.ok) {

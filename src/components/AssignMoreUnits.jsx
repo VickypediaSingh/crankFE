@@ -347,6 +347,8 @@
 import React, { useState, useEffect } from "react";
 
 export default function AssignMoreUnits() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   const [distributors, setDistributors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [finalUnits, setFinalUnits] = useState({});
@@ -360,14 +362,11 @@ export default function AssignMoreUnits() {
   const fetchDistributors = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://localhost:3000/admin/distributors-summary",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${crankURL}/admin/distributors-summary`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -424,7 +423,7 @@ export default function AssignMoreUnits() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:3000/admin/assign-units/${distributor.id}`,
+        `${crankURL}/admin/assign-units/${distributor.id}`,
         {
           method: "POST",
           headers: {
@@ -492,7 +491,7 @@ export default function AssignMoreUnits() {
             className="text-3xl sm:text-4xl font-bold mb-3 text-[#93c740]"
             style={{ fontFamily: "'Archivo Black', sans-serif" }}
           >
-            Assign Product Units
+            Manage Product Units
           </h2>
           <p className="text-lg text-[#BDBDBD] max-w-2xl mx-auto">
             Allocate or deduct additional sampling units to ambassadors

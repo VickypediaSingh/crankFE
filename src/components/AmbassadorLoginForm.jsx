@@ -198,6 +198,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AmbassadorLoginForm() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -214,14 +216,11 @@ export default function AmbassadorLoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(
-        "http://localhost:3000/auth/distributor/send-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mobile_number: `+91${mobile}` }),
-        }
-      );
+      const res = await fetch(`${crankURL}/auth/distributor/send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile_number: `+91${mobile}` }),
+      });
       const data = await res.json();
       if (!res.ok) {
         setError(data.message || "Failed to send OTP");
@@ -240,14 +239,11 @@ export default function AmbassadorLoginForm() {
     setError("");
     setIsLoading(true);
     try {
-      const res = await fetch(
-        "http://localhost:3000/auth/distributor/verify-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
-        }
-      );
+      const res = await fetch(`${crankURL}/auth/distributor/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
+      });
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("token", data.token);

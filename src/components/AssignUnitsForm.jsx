@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AssignUnitsForm() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   const { id } = useParams();
   const navigate = useNavigate();
   const [distributor, setDistributor] = useState(null);
@@ -15,14 +17,11 @@ export default function AssignUnitsForm() {
     const fetchDistributor = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(
-          `http://localhost:3000/admin/distributor/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${crankURL}/admin/distributor/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch distributor");
@@ -55,7 +54,7 @@ export default function AssignUnitsForm() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:3000/admin/assign-units/${id}`, // Fixed typo in endpoint (was 'assign-units')
+        `${crankURL}/admin/assign-units/${id}`, // Fixed typo in endpoint (was 'assign-units')
         {
           method: "POST",
           headers: {

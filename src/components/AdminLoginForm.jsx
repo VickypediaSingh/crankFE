@@ -255,10 +255,14 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLoginForm() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -278,7 +282,7 @@ export default function AdminLoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:3000/auth/admin/send-otp", {
+      const res = await fetch(`${crankURL}/auth/admin/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -300,13 +304,13 @@ export default function AdminLoginForm() {
     try {
       let res;
       if (adminLoginMode === "password") {
-        res = await fetch("http://localhost:3000/auth/admin/login", {
+        res = await fetch(`${crankURL}/auth/admin/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
       } else {
-        res = await fetch("http://localhost:3000/auth/admin/verify-otp", {
+        res = await fetch(`${crankURL}/auth/admin/verify-otp`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),

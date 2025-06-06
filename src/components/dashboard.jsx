@@ -637,6 +637,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+  const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
   const [distributors, setDistributors] = useState([]);
   const [recipients, setRecipients] = useState([]);
   const [role, setRole] = useState("");
@@ -651,10 +653,10 @@ export default function Dashboard() {
       try {
         if (roleFromStorage === "admin") {
           const [distributorsRes, recipientsRes] = await Promise.all([
-            fetch("http://localhost:3000/admin/distributors-summary", {
+            fetch(`${crankURL}/admin/distributors-summary`, {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            fetch("http://localhost:3000/admin/get-daily-recipients", {
+            fetch(`${crankURL}/admin/get-daily-recipients`, {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
             }),
@@ -664,7 +666,7 @@ export default function Dashboard() {
           setRecipients(await recipientsRes.json());
         } else if (roleFromStorage === "distributor") {
           const response = await fetch(
-            "http://localhost:3000/admin/distributor-summary",
+            `${crankURL}/admin/distributor-summary`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setDistributors([await response.json()]);
@@ -692,10 +694,9 @@ export default function Dashboard() {
   const handleDownloadMasterCSV = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://localhost:3000/admin/download-recipients",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await fetch(`${crankURL}/admin/download-recipients`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (!response.ok) throw new Error("Failed to download master CSV");
 
@@ -717,10 +718,9 @@ export default function Dashboard() {
   const handleDownloadCSV = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://localhost:3000/admin/download-distributors",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await fetch(`${crankURL}/admin/download-distributors`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (!response.ok) throw new Error("Failed to download CSV");
 
@@ -748,7 +748,8 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#2E2E2E] p-0 m-0 font-sans overflow-hidden relative">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen bg-[#2E2E2E] text-[#F7F7F7] relative">
+      {/* <div className="max-w-7xl mx-auto px-0 sm:px-0 lg:px-0 py-0 min-h-screen bg-[#2E2E2E] text-[#F7F7F7] relative"> */}
       {/* Background Logo */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
         <h1
@@ -759,7 +760,7 @@ export default function Dashboard() {
         </h1>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h2
@@ -872,7 +873,7 @@ export default function Dashboard() {
                         Add Ambassador
                       </h3>
                       <p className="text-sm text-[#BDBDBD]">
-                        Register a new ambassador
+                        Register a new ambassador in dashboard
                       </p>
                     </div>
                   </div>
@@ -928,20 +929,23 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <h3 className="font-medium text-[#F7F7F7]">
-                        Assign Units
+                        Manage Product Units
                       </h3>
                       <p className="text-sm text-[#BDBDBD]">
-                        Allocate more product units
+                        Allocate or deduct units for ambassadors
                       </p>
                     </div>
                   </div>
                 </div>
               </Link>
             </div>
-
             {/* Partition Line */}
             <div className="border-t border-[#BDBDBD]/20 mb-12"></div>
-
+            {/*  */}
+            <h3 className="text-2xl font-semibold text-gray-200 mb-6">
+              Distribution Overview
+            </h3>
+            {/*  */}
             {/* Distribution Overview Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
               {/* Assigned - Blue */}
@@ -995,10 +999,8 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-
             {/* Partition Line */}
             <div className="border-t border-[#BDBDBD]/20 mb-12"></div>
-
             {/* Ambassadors Table */}
             <div className="mb-12">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -1007,7 +1009,7 @@ export default function Dashboard() {
                 </h3>
                 <button
                   onClick={handleDownloadCSV}
-                  className="flex items-center space-x-2 bg-[#93c740] hover:bg-[#93c740]/90 text-[#2E2E2E] px-4 py-2 rounded-lg text-sm transition-colors"
+                  className="flex items-center space-x-2 bg-[#93c740]/100 hover:bg-[#f1660d]/100 text-[#2E2E2E] px-4 py-2 rounded-lg text-sm transition-colors"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                     <path
@@ -1104,10 +1106,8 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-
             {/* Partition Line */}
             <div className="border-t border-[#BDBDBD]/20 mb-12"></div>
-
             {/* Recipients Table */}
             <div className="mb-10">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
