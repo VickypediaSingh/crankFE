@@ -260,8 +260,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLoginForm() {
-  const crankURL = "http://localhost:3000";
-  // const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "http://localhost:3000";
+  const crankURL = "https://crank.zeppsandbox.com/api";
 
   useEffect(() => {
     localStorage.removeItem("token");

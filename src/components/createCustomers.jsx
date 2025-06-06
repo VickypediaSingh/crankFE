@@ -285,8 +285,8 @@
 import React, { useState } from "react";
 
 export default function CreateCustomer() {
-  const crankURL = "http://localhost:3000";
-  // const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "http://localhost:3000";
+  const crankURL = "https://crank.zeppsandbox.com/api";
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [otpSent, setOtpSent] = useState(false);

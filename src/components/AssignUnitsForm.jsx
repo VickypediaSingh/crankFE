@@ -4,8 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AssignUnitsForm() {
-  const crankURL = "http://localhost:3000";
-  // const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "http://localhost:3000";
+  const crankURL = "https://crank.zeppsandbox.com/api";
   const { id } = useParams();
   const navigate = useNavigate();
   const [distributor, setDistributor] = useState(null);

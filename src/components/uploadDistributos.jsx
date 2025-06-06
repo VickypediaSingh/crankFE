@@ -168,8 +168,8 @@
 import React, { useState } from "react";
 
 export default function UploadDistributors() {
-  const crankURL = "http://localhost:3000";
-  // const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "http://localhost:3000";
+  const crankURL = "https://crank.zeppsandbox.com/api";
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");

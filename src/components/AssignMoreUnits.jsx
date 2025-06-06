@@ -347,8 +347,8 @@
 import React, { useState, useEffect } from "react";
 
 export default function AssignMoreUnits() {
-  const crankURL = "http://localhost:3000";
-  // const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "http://localhost:3000";
+  const crankURL = "https://crank.zeppsandbox.com/api";
   const [distributors, setDistributors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [finalUnits, setFinalUnits] = useState({});
