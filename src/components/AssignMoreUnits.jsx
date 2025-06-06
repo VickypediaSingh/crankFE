@@ -518,25 +518,25 @@ export default function AssignMoreUnits() {
             <table className="min-w-full divide-y divide-[#BDBDBD]/20">
               <thead className="bg-[#93c740]">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Phone
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Assigned
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Sampled
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Remaining
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Final Units
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
+                  <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider">
                     Action
                   </th>
                 </tr>
