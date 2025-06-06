@@ -1050,19 +1050,19 @@ export default function Dashboard() {
                   <table className="min-w-full divide-y divide-[#BDBDBD]/20">
                     <thead className="bg-[#93c740]">
                       <tr>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Name
                         </th>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Phone
                         </th>
-                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Assigned
                         </th>
-                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Sampled
                         </th>
-                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th class="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Remaining
                         </th>
                       </tr>
@@ -1120,19 +1120,19 @@ export default function Dashboard() {
                   <table className="min-w-full divide-y divide-[#BDBDBD]/20">
                     <thead className="bg-[#93c740]">
                       <tr>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Date/Time
                         </th>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Ambassador Name
                         </th>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Ambassador Phone
                         </th>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Recipient Name
                         </th>
-                        <th className="px-6 py-4 text-left text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
+                        <th className="px-6 py-4 text-center text-sm font-medium text-[#2E2E2E] uppercase tracking-wider whitespace-nowrap">
                           Recipient Phone
                         </th>
                       </tr>
