@@ -201,8 +201,8 @@ export default function AmbassadorLoginForm() {
   // const crankURL = "http://localhost:3000";
   const crankURL = "https://crank.zeppsandbox.com/api";
 
-  const caURL = "https://ca.crankenergy.in";
-  const adminURL = "https://admin.crankenergy.in";
+  const caURL = "https://ca.crankenergy.in/api";
+  const adminURL = "https://admin.crankenergy.in/api";
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
