@@ -261,7 +261,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminLoginForm() {
   // const crankURL = "http://localhost:3000";
-  const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
 
   useEffect(() => {
     localStorage.removeItem("token");
@@ -282,7 +285,7 @@ export default function AdminLoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`${crankURL}/auth/admin/send-otp`, {
+      const res = await fetch(`${adminURL}/auth/admin/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -304,13 +307,13 @@ export default function AdminLoginForm() {
     try {
       let res;
       if (adminLoginMode === "password") {
-        res = await fetch(`${crankURL}/auth/admin/login`, {
+        res = await fetch(`${adminURL}/auth/admin/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
       } else {
-        res = await fetch(`${crankURL}/auth/admin/verify-otp`, {
+        res = await fetch(`${adminURL}/auth/admin/verify-otp`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),

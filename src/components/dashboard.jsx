@@ -633,12 +633,17 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   // const crankURL = "http://localhost:3000";
-  const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+  //
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
+  //
   const [distributors, setDistributors] = useState([]);
   const [recipients, setRecipients] = useState([]);
   const [role, setRole] = useState("");
@@ -653,10 +658,10 @@ export default function Dashboard() {
       try {
         if (roleFromStorage === "admin") {
           const [distributorsRes, recipientsRes] = await Promise.all([
-            fetch(`${crankURL}/admin/distributors-summary`, {
+            fetch(`${adminURL}/admin/distributors-summary`, {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            fetch(`${crankURL}/admin/get-daily-recipients`, {
+            fetch(`${adminURL}/admin/get-daily-recipients`, {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
             }),
@@ -665,10 +670,9 @@ export default function Dashboard() {
           setDistributors(await distributorsRes.json());
           setRecipients(await recipientsRes.json());
         } else if (roleFromStorage === "distributor") {
-          const response = await fetch(
-            `${crankURL}/admin/distributor-summary`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
+          const response = await fetch(`${caURL}/admin/distributor-summary`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           setDistributors([await response.json()]);
         }
       } catch (error) {
@@ -694,7 +698,7 @@ export default function Dashboard() {
   const handleDownloadMasterCSV = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${crankURL}/admin/download-recipients`, {
+      const response = await fetch(`${adminURL}/admin/download-recipients`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -718,7 +722,7 @@ export default function Dashboard() {
   const handleDownloadCSV = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${crankURL}/admin/download-distributors`, {
+      const response = await fetch(`${adminURL}/admin/download-distributors`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

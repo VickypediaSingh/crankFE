@@ -6,6 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 export default function AssignUnitsForm() {
   // const crankURL = "http://localhost:3000";
   const crankURL = "https://crank.zeppsandbox.com/api";
+  //
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [distributor, setDistributor] = useState(null);
@@ -17,7 +21,7 @@ export default function AssignUnitsForm() {
     const fetchDistributor = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`${crankURL}/admin/distributor/${id}`, {
+        const response = await fetch(`${adminURL}/admin/distributor/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +58,7 @@ export default function AssignUnitsForm() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${crankURL}/admin/assign-units/${id}`, // Fixed typo in endpoint (was 'assign-units')
+        `${adminURL}/admin/assign-units/${id}`, // Fixed typo in endpoint (was 'assign-units')
         {
           method: "POST",
           headers: {

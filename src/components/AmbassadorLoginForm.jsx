@@ -200,6 +200,9 @@ import { useNavigate } from "react-router-dom";
 export default function AmbassadorLoginForm() {
   // const crankURL = "http://localhost:3000";
   const crankURL = "https://crank.zeppsandbox.com/api";
+
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -216,7 +219,7 @@ export default function AmbassadorLoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`${crankURL}/auth/distributor/send-otp`, {
+      const res = await fetch(`${caURL}/auth/distributor/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -239,7 +242,7 @@ export default function AmbassadorLoginForm() {
     setError("");
     setIsLoading(true);
     try {
-      const res = await fetch(`${crankURL}/auth/distributor/verify-otp`, {
+      const res = await fetch(`${caURL}/auth/distributor/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),

@@ -286,7 +286,11 @@ import React, { useState } from "react";
 
 export default function CreateCustomer() {
   // const crankURL = "http://localhost:3000";
-  const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+  //
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
+  //
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -304,7 +308,7 @@ export default function CreateCustomer() {
     setMessage({ type: "", text: "" });
 
     try {
-      const res = await fetch(`${crankURL}/customer/send-otp`, {
+      const res = await fetch(`${caURL}/customer/send-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -335,7 +339,7 @@ export default function CreateCustomer() {
     setMessage({ type: "", text: "" });
 
     try {
-      const verifyRes = await fetch(`${crankURL}/customer/verify-otp`, {
+      const verifyRes = await fetch(`${caURL}/customer/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -359,7 +363,7 @@ export default function CreateCustomer() {
         text: "OTP verified. Creating recipient...",
       });
 
-      const createRes = await fetch(`${crankURL}/customer/create`, {
+      const createRes = await fetch(`${caURL}/customer/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -348,7 +348,11 @@ import React, { useState, useEffect } from "react";
 
 export default function AssignMoreUnits() {
   // const crankURL = "http://localhost:3000";
-  const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+  //
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
+
   const [distributors, setDistributors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [finalUnits, setFinalUnits] = useState({});
@@ -362,7 +366,7 @@ export default function AssignMoreUnits() {
   const fetchDistributors = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${crankURL}/admin/distributors-summary`, {
+      const response = await fetch(`${adminURL}/admin/distributors-summary`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -423,7 +427,7 @@ export default function AssignMoreUnits() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${crankURL}/admin/assign-units/${distributor.id}`,
+        `${adminURL}/admin/assign-units/${distributor.id}`,
         {
           method: "POST",
           headers: {

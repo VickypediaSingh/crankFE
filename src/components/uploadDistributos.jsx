@@ -169,7 +169,11 @@ import React, { useState } from "react";
 
 export default function UploadDistributors() {
   // const crankURL = "http://localhost:3000";
-  const crankURL = "https://crank.zeppsandbox.com/api";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+  //
+  const caURL = "https://ca.crankenergy.in";
+  const adminURL = "https://admin.crankenergy.in";
+  //
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -207,7 +211,7 @@ export default function UploadDistributors() {
     };
 
     try {
-      const res = await fetch(`${crankURL}/admin/create-distributor`, {
+      const res = await fetch(`${adminURL}/admin/create-distributor`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
