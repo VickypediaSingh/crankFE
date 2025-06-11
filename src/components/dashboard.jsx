@@ -659,9 +659,11 @@ export default function Dashboard() {
         if (roleFromStorage === "admin") {
           const [distributorsRes, recipientsRes] = await Promise.all([
             fetch(`${adminURL}/admin/distributors-summary`, {
+              // fetch(`${crankURL}/admin/distributors-summary`, {
               headers: { Authorization: `Bearer ${token}` },
             }),
             fetch(`${adminURL}/admin/get-daily-recipients`, {
+              // fetch(`${crankURL}/admin/get-daily-recipients`, {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
             }),
@@ -671,8 +673,10 @@ export default function Dashboard() {
           setRecipients(await recipientsRes.json());
         } else if (roleFromStorage === "distributor") {
           const response = await fetch(`${caURL}/admin/distributor-summary`, {
+            // const response = await fetch(`${crankURL}/admin/distributor-summary`,{
             headers: { Authorization: `Bearer ${token}` },
           });
+
           setDistributors([await response.json()]);
         }
       } catch (error) {
@@ -699,6 +703,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${adminURL}/admin/download-recipients`, {
+        // const response = await fetch(`${crankURL}/admin/download-recipients`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -723,6 +728,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${adminURL}/admin/download-distributors`, {
+        // const response = await fetch(`${crankURL}/admin/download-distributors`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -1191,7 +1197,7 @@ export default function Dashboard() {
                             colSpan="5"
                             className="px-6 py-8 text-center text-[#BDBDBD] italic"
                           >
-                            No Recipients Found
+                            No Recipients Added Today
                           </td>
                         </tr>
                       )}
