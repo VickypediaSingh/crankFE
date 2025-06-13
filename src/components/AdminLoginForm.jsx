@@ -410,6 +410,7 @@ export default function AdminLoginForm() {
     setError("");
     try {
       const res = await fetch(`${adminURL}/auth/admin/send-otp`, {
+        // const res = await fetch(`${crankURL}/auth/admin/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -453,12 +454,14 @@ export default function AdminLoginForm() {
       let res;
       if (adminLoginMode === "password") {
         res = await fetch(`${adminURL}/auth/admin/login`, {
+          // res = await fetch(`${crankURL}/auth/admin/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
       } else {
         res = await fetch(`${adminURL}/auth/admin/verify-otp`, {
+          // res = await fetch(`${crankURL}/auth/admin/verify-otp`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
@@ -481,14 +484,13 @@ export default function AdminLoginForm() {
 
   return (
     <div className="min-h-screen bg-[#2E2E2E] p-0 m-0 font-sans overflow-hidden">
-      {/* Background Logo */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-        <h1
-          className="text-[40vw] sm:text-[30vw] md:text-[25vw] font-black opacity-[0.03] text-[#F7F7F7]"
-          style={{ fontFamily: "'Archivo Black', sans-serif" }}
-        >
-          CRANK
-        </h1>
+      {/* Background Logo - Now using SVG */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.05]">
+        <img
+          src="/CRANK_logo.svg"
+          alt="CRANK Logo"
+          className="w-full max-w-[1100px] h-auto"
+        />
       </div>
 
       {/* Main Content */}
@@ -497,15 +499,15 @@ export default function AdminLoginForm() {
         <div className="w-full max-w-md bg-[#2E2E2E]/90 backdrop-blur-sm rounded-lg shadow-xl border border-[#BDBDBD]/10 p-6 sm:p-8">
           {/* Logo Section */}
           <div className="mb-6 text-center">
-            <h1
-              className="text-3xl sm:text-4xl font-bold text-[#F7F7F7] tracking-tighter"
-              style={{ fontFamily: "'Archivo Black', sans-serif" }}
-            >
-              CRANK
-            </h1>
-            <p className="text-xs text-[#93c740] mt-1 tracking-widest">
-              #keepgoing
-            </p>
+            <div className="flex justify-center">
+              <div className="aspect-[16/9] w-full max-w-[800px] overflow-hidden">
+                <img
+                  src="/CRANK_logo.svg"
+                  alt="CRANK Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Form Header */}
@@ -741,3 +743,19 @@ export default function AdminLoginForm() {
     </div>
   );
 }
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -673,7 +673,9 @@ export default function Dashboard() {
           setRecipients(await recipientsRes.json());
         } else if (roleFromStorage === "distributor") {
           const response = await fetch(`${caURL}/admin/distributor-summary`, {
-            // const response = await fetch(`${crankURL}/admin/distributor-summary`,{
+            // const response = await fetch(
+            //   `${crankURL}/admin/distributor-summary`,
+            //   {
             headers: { Authorization: `Bearer ${token}` },
           });
 
@@ -760,14 +762,13 @@ export default function Dashboard() {
   return (
     <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen bg-[#2E2E2E] text-[#F7F7F7] relative">
       {/* <div className="max-w-7xl mx-auto px-0 sm:px-0 lg:px-0 py-0 min-h-screen bg-[#2E2E2E] text-[#F7F7F7] relative"> */}
-      {/* Background Logo */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-        <h1
-          className="text-[40vw] sm:text-[30vw] md:text-[25vw] font-black opacity-[0.03] text-[#F7F7F7]"
-          style={{ fontFamily: "'Archivo Black', sans-serif" }}
-        >
-          CRANK
-        </h1>
+      {/* Background Logo - Now using SVG */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.05]">
+        <img
+          src="/CRANK_logo.svg"
+          alt="CRANK Logo"
+          className="w-full max-w-[1100px] h-auto"
+        />
       </div>
 
       <div className="relative z-10">

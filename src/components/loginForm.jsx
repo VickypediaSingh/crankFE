@@ -232,12 +232,14 @@ export default function LoginForm() {
     setIsLoading(true);
     setError("");
     try {
-      const url =
-        loginType === "admin"
-          ? `${adminURL}/auth/admin/send-otp`
-          : // ? "https://crank.zeppsandbox.com/api/auth/admin/send-otp"
-            `${caURL}/auth/distributor/send-otp`;
-      // : "https://crank.zeppsandbox.com/api/auth/distributor/send-otp";
+      const url = loginType === "admin";
+      // loginType === "admin"
+      //   ? `${crankURL}/auth/admin/send-otp`
+      //   : `${crankURL}/auth/distributor/send-otp`;
+      //
+      loginType === "admin"
+        ? `${adminURL}/auth/admin/send-otp`
+        : `${caURL}/auth/distributor/send-otp`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -269,6 +271,7 @@ export default function LoginForm() {
       if (loginType === "admin") {
         if (adminLoginMode === "password") {
           res = await fetch(`${adminURL}/auth/admin/login`, {
+            // res = await fetch(`${crankURL}/auth/admin/login`, {
             // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -276,6 +279,7 @@ export default function LoginForm() {
           });
         } else {
           res = await fetch(`${adminURL}/auth/admin/verify-otp`, {
+            // res = await fetch(`${crankURL}/auth/admin/verify-otp`, {
             // res = await fetch("https://crank.zeppsandbox.com/api/auth/admin/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -284,6 +288,7 @@ export default function LoginForm() {
         }
       } else {
         res = await fetch(`${caURL}/auth/distributor/verify-otp`, {
+          // res = await fetch(`${crankURL}/auth/distributor/verify-otp`, {
           // res = await fetch("https://crank.zeppsandbox.com/api/auth/distributor/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

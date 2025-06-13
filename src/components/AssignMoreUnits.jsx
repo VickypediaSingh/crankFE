@@ -704,6 +704,9 @@
 import React, { useState, useEffect } from "react";
 
 export default function AssignMoreUnits() {
+  // const crankURL = "http://localhost:3000";
+  // const crankURL = "https://crank.zeppsandbox.com/api";
+
   const caURL = "https://ca.crankenergy.in/api";
   const adminURL = "https://admin.crankenergy.in/api";
 
@@ -722,6 +725,7 @@ export default function AssignMoreUnits() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${adminURL}/admin/distributors-summary`, {
+        // const response = await fetch(`${crankURL}/admin/distributors-summary`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -840,6 +844,7 @@ export default function AssignMoreUnits() {
       const token = localStorage.getItem("token");
       const response = await fetch(
         `${adminURL}/admin/assign-units/${distributor.id}`,
+        // `${crankURL}/admin/assign-units/${distributor.id}`,
         {
           method: "POST",
           headers: {
@@ -891,14 +896,13 @@ export default function AssignMoreUnits() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen bg-[#2E2E2E] text-[#F7F7F7] relative">
-      {/* Background Logo */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-        <h1
-          className="text-[40vw] sm:text-[30vw] md:text-[25vw] font-black opacity-[0.03] text-[#F7F7F7]"
-          style={{ fontFamily: "'Archivo Black', sans-serif" }}
-        >
-          CRANK
-        </h1>
+      {/* Background Logo - Now using SVG */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.05]">
+        <img
+          src="/CRANK_logo.svg"
+          alt="CRANK Logo"
+          className="w-full max-w-[1100px] h-auto"
+        />
       </div>
 
       <div className="relative z-10">

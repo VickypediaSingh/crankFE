@@ -22,6 +22,7 @@ export default function AssignUnitsForm() {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(`${adminURL}/admin/distributor/${id}`, {
+          // const response = await fetch(`${crankURL}/admin/distributor/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -59,6 +60,7 @@ export default function AssignUnitsForm() {
       const token = localStorage.getItem("token");
       const response = await fetch(
         `${adminURL}/admin/assign-units/${id}`, // Fixed typo in endpoint (was 'assign-units')
+        // `${crankURL}/admin/assign-units/${id}`, // Fixed typo in endpoint (was 'assign-units')
         {
           method: "POST",
           headers: {

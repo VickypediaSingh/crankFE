@@ -2,11 +2,11 @@
 // import { useNavigate } from "react-router-dom";
 
 // export default function AmbassadorLoginForm() {
-//   // const crankURL = "http://localhost:3000";
+//   const crankURL = "http://localhost:3000";
 //   // const crankURL = "https://crank.zeppsandbox.com/api";
 //   //
-//   const caURL = "https://ca.crankenergy.in/api";
-//   const adminURL = "https://admin.crankenergy.in/api";
+//   // const caURL = "https://ca.crankenergy.in/api";
+//   // const adminURL = "https://admin.crankenergy.in/api";
 //   useEffect(() => {
 //     localStorage.removeItem("token");
 //     localStorage.removeItem("role");
@@ -17,13 +17,57 @@
 //   const [error, setError] = useState("");
 //   const [otpSent, setOtpSent] = useState(false);
 //   const [isLoading, setIsLoading] = useState(false);
+//   const [mobileError, setMobileError] = useState("");
+//   const [otpError, setOtpError] = useState("");
 //   const navigate = useNavigate();
 
+//   const validateMobile = (mobile) => {
+//     const re = /^[6-9]\d{9}$/;
+//     return re.test(mobile);
+//   };
+
+//   const handleMobileChange = (e) => {
+//     const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+//     setMobile(value);
+
+//     if (value.length > 0 && !validateMobile(value)) {
+//       if (value.length < 10) {
+//         setMobileError("Mobile number must be 10 digits");
+//       } else if (!/^[6-9]/.test(value)) {
+//         setMobileError("Mobile number must start with 6, 7, 8 or 9");
+//       } else {
+//         setMobileError("Please enter a valid mobile number");
+//       }
+//     } else {
+//       setMobileError("");
+//     }
+//   };
+
+//   const handleOtpChange = (e) => {
+//     const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+//     if (value.length <= 6) {
+//       setOtp(value);
+//       if (value.length === 6) {
+//         setOtpError("");
+//       } else if (value.length > 0) {
+//         setOtpError("OTP must be 6 digits");
+//       } else {
+//         setOtpError("");
+//       }
+//     }
+//   };
+
 //   const handleSendOtp = async () => {
+//     if (!validateMobile(mobile)) {
+//       setMobileError("Please enter a valid mobile number");
+//       return;
+//     }
+
 //     setIsLoading(true);
 //     setError("");
 //     try {
-//       const res = await fetch(`${caURL}/auth/distributor/send-otp`, {
+//       // const res = await fetch(`${caURL}/auth/distributor/send-otp`, {
+//       const res = await fetch(`${crankURL}/auth/distributor/send-otp`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -44,9 +88,21 @@
 //   const handleLogin = async (e) => {
 //     e.preventDefault();
 //     setError("");
+
+//     if (!validateMobile(mobile)) {
+//       setMobileError("Please enter a valid mobile number");
+//       return;
+//     }
+
+//     if (otp.length !== 6) {
+//       setOtpError("OTP must be 6 digits");
+//       return;
+//     }
+
 //     setIsLoading(true);
 //     try {
-//       const res = await fetch(`${caURL}/auth/distributor/verify-otp`, {
+//       // const res = await fetch(`${caURL}/auth/distributor/verify-otp`, {
+//       const res = await fetch(`${crankURL}/auth/distributor/verify-otp`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
@@ -119,7 +175,7 @@
 //                 required
 //                 placeholder="10-digit mobile number"
 //                 value={mobile}
-//                 onChange={(e) => setMobile(e.target.value)}
+//                 onChange={handleMobileChange}
 //                 className="peer w-full bg-[#2E2E2E] border border-[#BDBDBD]/30 rounded-md px-3 pt-5 pb-2 text-sm text-[#F7F7F7] placeholder-transparent focus:outline-none focus:ring-1 focus:ring-[#f1660d] focus:border-[#f1660d] transition-all"
 //               />
 //               <label
@@ -128,6 +184,11 @@
 //               >
 //                 10 Digit Mobile Number
 //               </label>
+//               {mobileError && (
+//                 <p className="text-xs text-red-500 mt-1 animate-fadeIn">
+//                   {mobileError}
+//                 </p>
+//               )}
 //             </div>
 
 //             {/* OTP Input */}
@@ -143,7 +204,7 @@
 //                     disabled={!otpSent}
 //                     placeholder="6-digit OTP"
 //                     value={otp}
-//                     onChange={(e) => setOtp(e.target.value)}
+//                     onChange={handleOtpChange}
 //                     className={`w-full bg-[#2E2E2E] border ${
 //                       !otpSent ? "border-[#BDBDBD]/10" : "border-[#BDBDBD]/30"
 //                     } rounded-md px-3 pt-5 pb-2 text-sm text-[#F7F7F7] placeholder-transparent focus:outline-none focus:ring-1 focus:ring-[#f1660d] focus:border-[#f1660d] transition-all`}
@@ -160,9 +221,9 @@
 //                 <button
 //                   type="button"
 //                   onClick={handleSendOtp}
-//                   disabled={!mobile || mobile.length !== 10 || isLoading}
+//                   disabled={!validateMobile(mobile) || isLoading}
 //                   className={`px-4 py-2 text-sm rounded-md font-medium h-[42px] sm:h-auto ${
-//                     !mobile || mobile.length !== 10 || isLoading
+//                     !validateMobile(mobile) || isLoading
 //                       ? "bg-[#f1660d]/30 text-[#F7F7F7]/70 cursor-not-allowed"
 //                       : "bg-[#f1660d] hover:bg-[#d6590a] text-[#F7F7F7]"
 //                   } transition-all`}
@@ -170,7 +231,12 @@
 //                   {isLoading ? "Sending..." : "Send OTP"}
 //                 </button>
 //               </div>
-//               {otpSent && (
+//               {otpError && (
+//                 <p className="text-xs text-red-500 animate-fadeIn">
+//                   {otpError}
+//                 </p>
+//               )}
+//               {otpSent && !otpError && (
 //                 <p className="text-xs text-[#f1660d] text-left animate-fadeIn">
 //                   OTP sent successfully!
 //                 </p>
@@ -187,9 +253,9 @@
 //             {/* Submit Button */}
 //             <button
 //               type="submit"
-//               disabled={isLoading || !otpSent}
+//               disabled={isLoading || !otpSent || otp.length !== 6}
 //               className={`w-full py-3 rounded-md text-sm font-medium text-[#F7F7F7] ${
-//                 isLoading || !otpSent
+//                 isLoading || !otpSent || otp.length !== 6
 //                   ? "bg-[#f1660d]/30 cursor-not-allowed"
 //                   : "bg-[#f1660d] hover:bg-[#d6590a]"
 //               } transition-all`}
@@ -242,6 +308,7 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -311,6 +378,7 @@ export default function AmbassadorLoginForm() {
     setError("");
     try {
       const res = await fetch(`${caURL}/auth/distributor/send-otp`, {
+        // const res = await fetch(`${crankURL}/auth/distributor/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}` }),
@@ -345,6 +413,7 @@ export default function AmbassadorLoginForm() {
     setIsLoading(true);
     try {
       const res = await fetch(`${caURL}/auth/distributor/verify-otp`, {
+        // const res = await fetch(`${crankURL}/auth/distributor/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile_number: `+91${mobile}`, otp }),
@@ -366,14 +435,13 @@ export default function AmbassadorLoginForm() {
 
   return (
     <div className="min-h-screen bg-[#2E2E2E] p-0 m-0 font-sans overflow-hidden">
-      {/* Background Logo */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-        <h1
-          className="text-[40vw] sm:text-[30vw] md:text-[25vw] font-black opacity-[0.03] text-[#F7F7F7]"
-          style={{ fontFamily: "'Archivo Black', sans-serif" }}
-        >
-          CRANK
-        </h1>
+      {/* Background Logo - Now using SVG */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.05]">
+        <img
+          src="/CRANK_logo.svg"
+          alt="CRANK Logo"
+          className="w-full max-w-[1100px] h-auto"
+        />
       </div>
 
       {/* Main Content */}
@@ -382,15 +450,15 @@ export default function AmbassadorLoginForm() {
         <div className="w-full max-w-md bg-[#2E2E2E]/90 backdrop-blur-sm rounded-lg shadow-xl border border-[#BDBDBD]/10 p-6 sm:p-8">
           {/* Logo Section */}
           <div className="mb-6 text-center">
-            <h1
-              className="text-3xl sm:text-4xl font-bold text-[#F7F7F7] tracking-tighter"
-              style={{ fontFamily: "'Archivo Black', sans-serif" }}
-            >
-              CRANK
-            </h1>
-            <p className="text-xs text-[#f1660d] mt-1 tracking-widest">
-              #keepgoing
-            </p>
+            <div className="flex justify-center">
+              <div className="aspect-[16/9] w-full max-w-[800px] overflow-hidden">
+                <img
+                  src="/CRANK_logo.svg"
+                  alt="CRANK Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Login Form */}
